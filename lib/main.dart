@@ -34,10 +34,10 @@ class MyAppState extends ChangeNotifier {
   }
 
   var favorites = <WordPair>[];
-  void toggleFavorite(){
-    if (favorites.contains(current)){
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
       favorites.remove(current);
-    }else{
+    } else {
       favorites.add(current);
     }
     notifyListeners();
@@ -53,6 +53,18 @@ class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = GeneratorPage();
+        break;
+      case 1:
+        page = Placeholder();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
     return Scaffold(
       body: Row(
         children: [
@@ -80,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: Container(
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: GeneratorPage(),
+              child: page,
             ),
           ),
         ],
@@ -152,9 +164,11 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(pair.asLowerCase,
-        style: style,
-        semanticsLabel: "${pair.first} ${pair.second}",),
+        child: Text(
+          pair.asLowerCase,
+          style: style,
+          semanticsLabel: "${pair.first} ${pair.second}",
+        ),
       ),
     );
   }
